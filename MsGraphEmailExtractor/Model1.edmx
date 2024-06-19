@@ -1,0 +1,352 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="HuddleSmtpModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ExceptionLog">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="3000" />
+          <Property Name="ErrorMessage1" Type="nvarchar(max)" />
+          <Property Name="ErrorMessage2" Type="nvarchar(max)" />
+          <Property Name="DateTimeLogged" Type="datetime" />
+        </EntityType>
+        <EntityType Name="InboxEmail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserPrincipalID" Type="int" />
+          <Property Name="UserEmail" Type="varchar" MaxLength="200" />
+          <Property Name="FromEmail" Type="varchar" MaxLength="200" />
+          <Property Name="ToEmail" Type="nvarchar(max)" />
+          <Property Name="CCEmail" Type="nvarchar(max)" />
+          <Property Name="BCCEmail" Type="nvarchar(max)" />
+          <Property Name="Subject" Type="varchar" MaxLength="2000" />
+          <Property Name="DateTimeSent" Type="datetime" />
+          <Property Name="DateTimeImported" Type="datetime" />
+          <Property Name="Sender" Type="varchar" MaxLength="2000" />
+          <Property Name="ToEmailNames" Type="nvarchar(max)" />
+          <Property Name="CCEmailNames" Type="nvarchar(max)" />
+          <Property Name="BCCEmailNames" Type="nvarchar(max)" />
+          <Property Name="RecipientCount" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'HuddleSmtp.dbo.RecipientList' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="RecipientList">
+          <Property Name="ToEmail" Type="varchar" MaxLength="2000" />
+          <Property Name="ToEmailNames" Type="nvarchar(max)" />
+        </EntityType>-->
+        <EntityType Name="SentEmail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserPrincipalID" Type="int" />
+          <Property Name="UserEmail" Type="varchar" MaxLength="200" />
+          <Property Name="FromEmail" Type="varchar" MaxLength="200" />
+          <Property Name="ToEmail" Type="nvarchar(max)" />
+          <Property Name="CCEmail" Type="nvarchar(max)" />
+          <Property Name="BCCEmail" Type="nvarchar(max)" />
+          <Property Name="Subject" Type="varchar" MaxLength="2000" />
+          <Property Name="DateTimeSent" Type="datetime" />
+          <Property Name="DateTimeImported" Type="datetime" />
+          <Property Name="Sender" Type="varchar" MaxLength="2000" />
+          <Property Name="ToEmailNames" Type="nvarchar(max)" />
+          <Property Name="CCEmailNames" Type="nvarchar(max)" />
+          <Property Name="BCCEmailNames" Type="nvarchar(max)" />
+          <Property Name="RecipientCount" Type="int" />
+        </EntityType>
+        <EntityType Name="UserPrincipal">
+          <Key>
+            <PropertyRef Name="UniqueId" />
+          </Key>
+          <Property Name="UniqueId" Type="bigint" Nullable="false" />
+          <Property Name="UserEmail" Type="varchar" MaxLength="8000" />
+        </EntityType>
+        <EntityType Name="UserPrincipalTable">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserEmail" Type="varchar" MaxLength="2000" />
+          <Property Name="UserID" Type="varchar" MaxLength="2000" />
+          <Property Name="DateTimeImported" Type="datetime" />
+          <Property Name="DisplayName" Type="varchar" MaxLength="2000" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'HuddleSmtp.dbo.UserNotDoneYetInbox' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="UserNotDoneYetInbox">
+          <Key>
+            <PropertyRef Name="UniqueId" />
+          </Key>
+          <Property Name="UniqueId" Type="bigint" Nullable="false" />
+          <Property Name="UserEmail" Type="varchar" MaxLength="2000" />
+          <Property Name="UserID" Type="varchar" MaxLength="2000" />
+          <Property Name="DisplayName" Type="varchar" MaxLength="2000" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'HuddleSmtp.dbo.UsersNotDoneYet' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="UsersNotDoneYet">
+          <Key>
+            <PropertyRef Name="UniqueId" />
+          </Key>
+          <Property Name="UniqueId" Type="bigint" Nullable="false" />
+          <Property Name="UserEmail" Type="varchar" MaxLength="2000" />
+          <Property Name="UserID" Type="varchar" MaxLength="2000" />
+          <Property Name="DisplayName" Type="varchar" MaxLength="2000" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'HuddleSmtp.dbo.vwFirstLastSentMail' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="vwFirstLastSentMail">
+          <Property Name="UserEmail" Type="varchar" MaxLength="8000" />
+          <Property Name="FirstSentDate" Type="datetime" />
+          <Property Name="LastSentDate" Type="datetime" />
+        </EntityType>-->
+        <EntityContainer Name="HuddleSmtpModelStoreContainer">
+          <EntitySet Name="ExceptionLog" EntityType="Self.ExceptionLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InboxEmail" EntityType="Self.InboxEmail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SentEmail" EntityType="Self.SentEmail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserPrincipal" EntityType="Self.UserPrincipal" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserPrincipalTable" EntityType="Self.UserPrincipalTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserNotDoneYetInbox" EntityType="Self.UserNotDoneYetInbox" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [UserNotDoneYetInbox].[UniqueId] AS [UniqueId], 
+    [UserNotDoneYetInbox].[UserEmail] AS [UserEmail], 
+    [UserNotDoneYetInbox].[UserID] AS [UserID], 
+    [UserNotDoneYetInbox].[DisplayName] AS [DisplayName]
+    FROM [dbo].[UserNotDoneYetInbox] AS [UserNotDoneYetInbox]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="UsersNotDoneYet" EntityType="Self.UsersNotDoneYet" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [UsersNotDoneYet].[UniqueId] AS [UniqueId], 
+    [UsersNotDoneYet].[UserEmail] AS [UserEmail], 
+    [UsersNotDoneYet].[UserID] AS [UserID], 
+    [UsersNotDoneYet].[DisplayName] AS [DisplayName]
+    FROM [dbo].[UsersNotDoneYet] AS [UsersNotDoneYet]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HuddleSmtpModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="HuddleSmtpEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="UserPrincipals" EntityType="HuddleSmtpModel.UserPrincipal" />
+          <EntitySet Name="ExceptionLogs" EntityType="HuddleSmtpModel.ExceptionLog" />
+          <EntitySet Name="InboxEmails" EntityType="HuddleSmtpModel.InboxEmail" />
+          <EntitySet Name="SentEmails" EntityType="HuddleSmtpModel.SentEmail" />
+          <EntitySet Name="UserPrincipalTables" EntityType="HuddleSmtpModel.UserPrincipalTable" />
+          <EntitySet Name="UserNotDoneYetInboxes" EntityType="HuddleSmtpModel.UserNotDoneYetInbox" />
+          <EntitySet Name="UsersNotDoneYets" EntityType="HuddleSmtpModel.UsersNotDoneYet" />
+        </EntityContainer>
+        <EntityType Name="UserPrincipal">
+          <Key>
+            <PropertyRef Name="UniqueId" />
+          </Key>
+          <Property Name="UniqueId" Type="Int64" Nullable="false" />
+          <Property Name="UserEmail" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ExceptionLog">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="3000" FixedLength="false" Unicode="false" />
+          <Property Name="ErrorMessage1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ErrorMessage2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DateTimeLogged" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="InboxEmail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserPrincipalID" Type="Int32" />
+          <Property Name="UserEmail" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="FromEmail" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ToEmail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CCEmail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="BCCEmail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Subject" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="DateTimeSent" Type="DateTime" Precision="3" />
+          <Property Name="DateTimeImported" Type="DateTime" Precision="3" />
+          <Property Name="Sender" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="ToEmailNames" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CCEmailNames" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="BCCEmailNames" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RecipientCount" Type="Int32" />
+        </EntityType>
+        <EntityType Name="SentEmail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserPrincipalID" Type="Int32" />
+          <Property Name="UserEmail" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="FromEmail" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ToEmail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CCEmail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="BCCEmail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Subject" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="DateTimeSent" Type="DateTime" Precision="3" />
+          <Property Name="DateTimeImported" Type="DateTime" Precision="3" />
+          <Property Name="Sender" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="ToEmailNames" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CCEmailNames" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="BCCEmailNames" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RecipientCount" Type="Int32" />
+        </EntityType>
+        <EntityType Name="UserPrincipalTable">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserEmail" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="UserID" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="DateTimeImported" Type="DateTime" Precision="3" />
+          <Property Name="DisplayName" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="UserNotDoneYetInbox">
+          <Key>
+            <PropertyRef Name="UniqueId" />
+          </Key>
+          <Property Name="UniqueId" Type="Int64" Nullable="false" />
+          <Property Name="UserEmail" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="UserID" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="DisplayName" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="UsersNotDoneYet">
+          <Key>
+            <PropertyRef Name="UniqueId" />
+          </Key>
+          <Property Name="UniqueId" Type="Int64" Nullable="false" />
+          <Property Name="UserEmail" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="UserID" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="DisplayName" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+        </EntityType>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="HuddleSmtpModelStoreContainer" CdmEntityContainer="HuddleSmtpEntities">
+          <EntitySetMapping Name="UserPrincipals">
+            <EntityTypeMapping TypeName="HuddleSmtpModel.UserPrincipal">
+              <MappingFragment StoreEntitySet="UserPrincipal">
+                <ScalarProperty Name="UserEmail" ColumnName="UserEmail" />
+                <ScalarProperty Name="UniqueId" ColumnName="UniqueId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ExceptionLogs">
+            <EntityTypeMapping TypeName="HuddleSmtpModel.ExceptionLog">
+              <MappingFragment StoreEntitySet="ExceptionLog">
+                <ScalarProperty Name="DateTimeLogged" ColumnName="DateTimeLogged" />
+                <ScalarProperty Name="ErrorMessage2" ColumnName="ErrorMessage2" />
+                <ScalarProperty Name="ErrorMessage1" ColumnName="ErrorMessage1" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InboxEmails">
+            <EntityTypeMapping TypeName="HuddleSmtpModel.InboxEmail">
+              <MappingFragment StoreEntitySet="InboxEmail">
+                <ScalarProperty Name="RecipientCount" ColumnName="RecipientCount" />
+                <ScalarProperty Name="BCCEmailNames" ColumnName="BCCEmailNames" />
+                <ScalarProperty Name="CCEmailNames" ColumnName="CCEmailNames" />
+                <ScalarProperty Name="ToEmailNames" ColumnName="ToEmailNames" />
+                <ScalarProperty Name="Sender" ColumnName="Sender" />
+                <ScalarProperty Name="DateTimeImported" ColumnName="DateTimeImported" />
+                <ScalarProperty Name="DateTimeSent" ColumnName="DateTimeSent" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="BCCEmail" ColumnName="BCCEmail" />
+                <ScalarProperty Name="CCEmail" ColumnName="CCEmail" />
+                <ScalarProperty Name="ToEmail" ColumnName="ToEmail" />
+                <ScalarProperty Name="FromEmail" ColumnName="FromEmail" />
+                <ScalarProperty Name="UserEmail" ColumnName="UserEmail" />
+                <ScalarProperty Name="UserPrincipalID" ColumnName="UserPrincipalID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SentEmails">
+            <EntityTypeMapping TypeName="HuddleSmtpModel.SentEmail">
+              <MappingFragment StoreEntitySet="SentEmail">
+                <ScalarProperty Name="RecipientCount" ColumnName="RecipientCount" />
+                <ScalarProperty Name="BCCEmailNames" ColumnName="BCCEmailNames" />
+                <ScalarProperty Name="CCEmailNames" ColumnName="CCEmailNames" />
+                <ScalarProperty Name="ToEmailNames" ColumnName="ToEmailNames" />
+                <ScalarProperty Name="Sender" ColumnName="Sender" />
+                <ScalarProperty Name="DateTimeImported" ColumnName="DateTimeImported" />
+                <ScalarProperty Name="DateTimeSent" ColumnName="DateTimeSent" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="BCCEmail" ColumnName="BCCEmail" />
+                <ScalarProperty Name="CCEmail" ColumnName="CCEmail" />
+                <ScalarProperty Name="ToEmail" ColumnName="ToEmail" />
+                <ScalarProperty Name="FromEmail" ColumnName="FromEmail" />
+                <ScalarProperty Name="UserEmail" ColumnName="UserEmail" />
+                <ScalarProperty Name="UserPrincipalID" ColumnName="UserPrincipalID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserPrincipalTables">
+            <EntityTypeMapping TypeName="HuddleSmtpModel.UserPrincipalTable">
+              <MappingFragment StoreEntitySet="UserPrincipalTable">
+                <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+                <ScalarProperty Name="DateTimeImported" ColumnName="DateTimeImported" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="UserEmail" ColumnName="UserEmail" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserNotDoneYetInboxes">
+            <EntityTypeMapping TypeName="HuddleSmtpModel.UserNotDoneYetInbox">
+              <MappingFragment StoreEntitySet="UserNotDoneYetInbox">
+                <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="UserEmail" ColumnName="UserEmail" />
+                <ScalarProperty Name="UniqueId" ColumnName="UniqueId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UsersNotDoneYets">
+            <EntityTypeMapping TypeName="HuddleSmtpModel.UsersNotDoneYet">
+              <MappingFragment StoreEntitySet="UsersNotDoneYet">
+                <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="UserEmail" ColumnName="UserEmail" />
+                <ScalarProperty Name="UniqueId" ColumnName="UniqueId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
